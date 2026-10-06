@@ -105,6 +105,7 @@ function renderMainEvents() { //[cite: 1]
 
         const classTrackText = [classGroup, track].filter(Boolean).join(' '); //[cite: 1]
         const badgeClass = type.includes('חתונה') ? 'badge-wedding' : 'badge-engagement'; //[cite: 1]
+        const ticketClass = type.includes('חתונה') ? 'event-wedding' : 'event-engagement';
         
         let countdownBadgeHtml = ''; //[cite: 1]
         if (dateGregorian) {
@@ -124,7 +125,6 @@ function renderMainEvents() { //[cite: 1]
         const mapsUrl = hall ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hall)}` : ''; //[cite: 1]
 
         const shareText = `שמחה ביומן: ${name} - ${type} (${dateHebrew}) ${hall ? 'באולם ' + hall : ''}`;
-        const waUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
         
         let googleCalUrl = '#';
         if (dateGregorian) {
@@ -136,8 +136,11 @@ function renderMainEvents() { //[cite: 1]
         }
 
         html += `
-            <div class="event-row-item">
-                ${countdownBadgeHtml}
+            <div class="event-row-item ${ticketClass}">
+                <div class="countdown-actions">
+                    ${countdownBadgeHtml}
+                    ${googleCalUrl !== '#' ? `<a href="${googleCalUrl}" target="_blank" class="action-btn btn-cal">הוסף ליומן</a>` : ''}
+                </div>
                 <div class="event-header-row">
                     ${type ? `<span class="badge ${badgeClass}">${type}</span>` : ''}
                     <h3 class="event-main-info">${name}</h3>
@@ -149,10 +152,6 @@ function renderMainEvents() { //[cite: 1]
                     ${moovitUrl ? `<a href="${moovitUrl}" target="_blank" class="moovit-btn">מוביט</a>` : ''}
                     ${wazeUrl ? `<a href="${wazeUrl}" target="_blank" class="moovit-btn">ווייז</a>` : ''}
                     ${mapsUrl ? `<a href="${mapsUrl}" target="_blank" class="moovit-btn">מפות</a>` : ''}
-                </div>
-                <div class="event-actions-row">
-                    <a href="${waUrl}" target="_blank" class="action-btn btn-wa">שתף ב-WhatsApp</a>
-                    ${googleCalUrl !== '#' ? `<a href="${googleCalUrl}" target="_blank" class="action-btn btn-cal">הוסף ליומן</a>` : ''}
                 </div>
             </div>
         `;
